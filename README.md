@@ -13,9 +13,9 @@ I used Calendarific's public API to create a table filled with some information 
     * delete_table.js
         * the above two files were used for debugging, but also provide ways to delete a column and/or table.
 ### Requesting from a Public API
-    * The following files were used to access a public API (calendarific)
-      * add_to_table.js
-        * Description: The code makes use of promises, such that when a response was received by making a request to that public API, we are then able to populate
+  * The following files were used to access a public API (calendarific)
+    * add_to_table.js
+      * Description: The code makes use of promises, such that when a response was received by making a request to that public API, we are then able to populate
           the table in the database without worrying about the problem where the table attempts to get populated before actually receiving a response.
 ### Client and Server Communication
   * The following files were used to set up the server and client code as well as to establish communication between the two:
