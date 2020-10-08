@@ -13,12 +13,10 @@ var con = mysql.createConnection({
 
 con.connect(function(err) {
   if (err) throw err;
-  console.log("Connected!");
 
   var sql = "CREATE TABLE holidays (id INT AUTO_INCREMENT PRIMARY KEY, name VARCHAR(255), country VARCHAR(255), date VARCHAR(255), type VARCHAR(255))";
   con.query(sql, function (err, result) {
     if (err) throw err;
-    console.log("Table created");
   });
 
 });

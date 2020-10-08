@@ -10,10 +10,72 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"> </script>
     <script src="/socket.io/socket.io.js"></script>
     <script src ="sockets.js" type="text/javascript"></script>
+    <link rel="stylesheet" href="styles.css">
 
 
   </head>
   <body>
+    <header>
+      Table of US Holidays in 2019
+    </header>
+    <nav>
+  <div class="nav nav-tabs" id="nav-tab" role="tablist">
+    <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">Contains String</a>
+    <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">Specific Month</a>
+    <a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" href="#nav-contact" role="tab" aria-controls="nav-contact" aria-selected="false">Specific Type</a>
+  </div>
+</nav>
+<div class="tab-content" id="nav-tabContent">
+  <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+    <form class="form-inline my-2 my-lg-0">
+        <input id = "inputStr" class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+        <button class="btn btn-outline-dark my-2 my-sm-0" type="submit" onclick="nameButtonClicked()">Search</button>
+      </form>
+    </div>
+  <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
+    <form class="form-inline">
+  <label class="my-1 mr-2" for="monthsSelect">Months</label>
+  <select class="custom-select my-1 mr-sm-2" id="monthsSelect">
+    <option selected>All</option>
+    <option value="1">January</option>
+    <option value="2">February</option>
+    <option value="3">March</option>
+    <option value="4">April</option>
+    <option value="5">May</option>
+    <option value="6">June</option>
+    <option value="7">July</option>
+    <option value="8">August</option>
+    <option value="9">September</option>
+    <option value="10">October</option>
+    <option value="11">November</option>
+    <option value="12">December</option>
+  </select>
+
+</form>
+    </div>
+  <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">
+    <form class="form-inline">
+  <label class="my-1 mr-2" for="typesSelect">Types</label>
+  <select class="custom-select my-1 mr-sm-2" id="typesSelect">
+    <option selected>All</option>
+    <option>National holiday</option>
+    <option>Worldwide observance</option>
+    <option>Christian</option>
+    <option>Orthodox</option>
+    <option>Local holiday</option>
+    <option>Hebrew</option>
+    <option>United Nations observance</option>
+    <option>Observance</option>
+    <option>Sporting event</option>
+    <option>Hinduism</option>
+    <option>Clock change</option>
+    <option>Season</option>
+    <option>Muslim</option>
+  </select>
+
+</form>
+  </div>
+</div>
     <div id="container">
     <table class="table table-hover">
       <thead class="thead-dark">

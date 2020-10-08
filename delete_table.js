@@ -11,12 +11,11 @@ var con = mysql.createConnection({
 
 con.connect(function(err) {
   if (err) throw err;
-  console.log("Connected!");
 
   var sql = "DROP TABLE holidays;";
   con.query(sql, function (err, result) {
     if (err) throw err;
-    console.log("Column deleted");
+
   });
 
 });
