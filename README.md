@@ -27,4 +27,4 @@ I used Calendarific's public API to create a table filled with some information 
   * The following files were used as a template for the application:
     * index.html
     * styles.css
-      * These files made use of bootstrap for an aesthetic look.
+      * These files made use of bootstrap to achieve an aesthetic look.
