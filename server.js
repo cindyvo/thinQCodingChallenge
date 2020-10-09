@@ -24,57 +24,52 @@ app.get('/', (req, res) => {
 app.use('/static', express.static('node_modules'));
 
 io.on('connection', function(socket) {
-
+  var pool;
   socket.on("load", function() {
-    var con = mysql.createConnection({
-      // host: "localhost",
-      // user: "root",
-      // port: 3306,
-      // password: "password123",
-      // database: "mydb"
-      host: "us-cdbr-east-02.cleardb.com",
-      user: "bd279b35413a9b",
+    pool = mysql.createPool({
+      connectionLimit: 10,
+      host: "localhost",
+      user: "root",
       port: 3306,
-      password: "4daa6363",
-      database: "heroku_6d73b950ea37501"
+      password: "password123",
+      database: "mydb"
+      // host: "us-cdbr-east-02.cleardb.com",
+      // user: "bd279b35413a9b",
+      // port: 3306,
+      // password: "4daa6363",
+      // database: "heroku_6d73b950ea37501"
     });
 
-    con.connect(function(err) {
-      if (err) throw err;
-
+    pool.getConnection(function(err, con){
       var sql = "SELECT * FROM holidays2020";
       con.query(sql, function (err, result) {
+        con.release();
         if (err) throw err;
-          socket.emit("update", result);
-
+        socket.emit("update", result);
       });
 
     });
-
   });
 
   socket.on("get-year", function(year) {
-    var con = mysql.createConnection({
-      // host: "localhost",
-      // user: "root",
-      // port: 3306,
-      // password: "password123",
-      // database: "mydb"
-      host: "us-cdbr-east-02.cleardb.com",
-      user: "bd279b35413a9b",
-      port: 3306,
-      password: "4daa6363",
-      database: "heroku_6d73b950ea37501"
-    });
-
-    con.connect(function(err) {
-      if (err) throw err;
-
+    // var con = mysql.createConnection({
+    //   // host: "localhost",
+    //   // user: "root",
+    //   // port: 3306,
+    //   // password: "password123",
+    //   // database: "mydb"
+    //   host: "us-cdbr-east-02.cleardb.com",
+    //   user: "bd279b35413a9b",
+    //   port: 3306,
+    //   password: "4daa6363",
+    //   database: "heroku_6d73b950ea37501"
+    // });
+    pool.getConnection(function(err,con){
       var sql = "SELECT * FROM holidays"+year;
       con.query(sql, function (err, result) {
+        con.release();
         if (err) throw err;
-          socket.emit("update-year", result);
-
+        socket.emit("update-year", result);
       });
 
     });
@@ -83,21 +78,20 @@ io.on('connection', function(socket) {
 
   socket.on("get-month", function(month, year) {
 
-    var con = mysql.createConnection({
-      // host: "localhost",
-      // user: "root",
-      // port: 3306,
-      // password: "password123",
-      // database: "mydb"
-      host: "us-cdbr-east-02.cleardb.com",
-      user: "bd279b35413a9b",
-      port: 3306,
-      password: "4daa6363",
-      database: "heroku_6d73b950ea37501"
-    });
+    // var con = mysql.createConnection({
+    //   // host: "localhost",
+    //   // user: "root",
+    //   // port: 3306,
+    //   // password: "password123",
+    //   // database: "mydb"
+    //   host: "us-cdbr-east-02.cleardb.com",
+    //   user: "bd279b35413a9b",
+    //   port: 3306,
+    //   password: "4daa6363",
+    //   database: "heroku_6d73b950ea37501"
+    // });
 
-    con.connect(function(err) {
-      if (err) throw err;
+    pool.getConnection(function(err,con){
       var sql;
       if(month == "All"){
           sql = "SELECT * FROM holidays"+year;
@@ -106,32 +100,31 @@ io.on('connection', function(socket) {
         sql = "SELECT * FROM holidays"+year+" WHERE date LIKE '_____"+monthHash[month]+"%'";
       }
       con.query(sql, function (err, result) {
+        con.release();
         if (err) throw err;
-          socket.emit("update-month", result, month);
+        socket.emit("update-month", result, month);
 
       });
-
     });
 
   });
 
   socket.on("get-type", function(type, year) {
 
-    var con = mysql.createConnection({
-      // host: "localhost",
-      // user: "root",
-      // port: 3306,
-      // password: "password123",
-      // database: "mydb"
-      host: "us-cdbr-east-02.cleardb.com",
-      user: "bd279b35413a9b",
-      port: 3306,
-      password: "4daa6363",
-      database: "heroku_6d73b950ea37501"
-    });
+    // var con = mysql.createConnection({
+    //   // host: "localhost",
+    //   // user: "root",
+    //   // port: 3306,
+    //   // password: "password123",
+    //   // database: "mydb"
+    //   host: "us-cdbr-east-02.cleardb.com",
+    //   user: "bd279b35413a9b",
+    //   port: 3306,
+    //   password: "4daa6363",
+    //   database: "heroku_6d73b950ea37501"
+    // });
 
-    con.connect(function(err) {
-      if (err) throw err;
+    pool.getConnection(function(err, con){
       var sql;
 
       if(type == "All"){
@@ -142,9 +135,9 @@ io.on('connection', function(socket) {
       }
 
       con.query(sql, function (err, result) {
+        con.release();
         if (err) throw err;
-          socket.emit("update-type", result, type);
-
+        socket.emit("update-type", result, type);
       });
 
     });
@@ -153,29 +146,26 @@ io.on('connection', function(socket) {
 
   socket.on("get-inputStr", function(inputStr, year) {
 
-    var con = mysql.createConnection({
-      // host: "localhost",
-      // user: "root",
-      // port: 3306,
-      // password: "password123",
-      // database: "mydb"
-      host: "us-cdbr-east-02.cleardb.com",
-      user: "bd279b35413a9b",
-      port: 3306,
-      password: "4daa6363",
-      database: "heroku_6d73b950ea37501"
-    });
+    // var con = mysql.createConnection({
+    //   // host: "localhost",
+    //   // user: "root",
+    //   // port: 3306,
+    //   // password: "password123",
+    //   // database: "mydb"
+    //   host: "us-cdbr-east-02.cleardb.com",
+    //   user: "bd279b35413a9b",
+    //   port: 3306,
+    //   password: "4daa6363",
+    //   database: "heroku_6d73b950ea37501"
+    // });
 
-    con.connect(function(err) {
-      if (err) throw err;
-
+    pool.getConnection(function(err,con){
       var sql = "SELECT * FROM holidays"+year;
       con.query(sql, function (err, result) {
+        con.release();
         if (err) throw err;
-          socket.emit("update-name", result, inputStr);
-
+        socket.emit("update-name", result, inputStr);
       });
-
     });
 
   });
