@@ -1,11 +1,12 @@
 # thinQCodingChallenge
+The website can be accessed here: https://stats-app.herokuapp.com/
 
 ## Description of the Application
-I used Calendarific's public API to create a table filled with some information about U.S. Holidays in 2019; namely, the holiday's name, the date on which the holiday occurs, and the holiday's type (e.g., Observance). The table can be filtered by specific characters, by a specific month, and by a specific type of holiday.
+I used Calendarific's public API to create a table filled with some information about U.S. holidays; namely, the holiday's name, the date on which the holiday occurs, and the holiday's type (e.g., Observance). The table can be filtered by specific characters, by a specific month, and by a specific type of holiday. On start up, you will see that the table has the U.S. holidays of 2020; however, the user can change the year and the table will update accordingly.
 
 ## High-level Description of the Implementation
 ### Setting up the Database
-  * MySQL was used as the primary database.
+  * MySQL was used as the primary database. Because I wanted to host my application, I specifically used Heroku's ClearDB MySQL add-on.
   * The following files were used to set up the database:
     * create_db.js
     * create_table.js

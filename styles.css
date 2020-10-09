@@ -9,8 +9,7 @@ header {
 }
 
 #yearStr{
-  position: absolute;
+  position: relative;
   left: 45%;
   top: 10%;
-
 }

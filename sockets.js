@@ -3,10 +3,10 @@ const socket = io();
 
 var year = 2020;
 
+//function that converts an iso string to a more human readable date string
 function convertISOtoDate(isoString) {
   var monthHash = {"01":"January","02":"February","03":"March","04":"April","05":"May","06":"June","07":"July","08":"August","09":"September","10":"October","11":"November","12":"December"};
   return monthHash[isoString.substring(5,7)] + " " + isoString.substring(8,10);
-
 }
 
 function nameButtonClicked() {
@@ -15,17 +15,20 @@ function nameButtonClicked() {
 }
 
 
-
+  //when the document is loaded, send this signal to start the initialization of the web page
   socket.emit('load');
-  socket.on("update", function(data) {
 
+
+  //inital update
+  socket.on("update", function(data) {
+    //for every record add to the html
     for(obj of data) {
       var dateString = convertISOtoDate(obj.date);
       $("#toAdd").append("<tr> <th scope='col'>" + obj.name + "</th>" + "<th scope='col'>" + dateString + "</th>" + "</th>" + "<th scope='col'>" + obj.type + "</th>" + "</tr>");
     }
-
   });
 
+  //if the year is updated, then we reinitialize the web page with information of that year
   socket.on("update-year", function(data) {
 
     //removes table data
@@ -53,7 +56,9 @@ function nameButtonClicked() {
   });
 
 
+//keeps track of changes on the webpage
 $(document).ready(function(){
+
     $("#monthsSelect").change(function(){
         var selectedMonth = $(this).children("option:selected").text();
         socket.emit("get-month", selectedMonth, year);
@@ -89,43 +94,29 @@ $(document).ready(function(){
      if(inputStr !=""){
        socket.emit("get-inputStr", inputStr, year);
      }
-
    });
 
 });
 
+//when we receive the signal that we need to change, then the html will change accordingly
 socket.on("update-month", function(data, month){
   $("#toAdd").empty();
-
-  console.log(month);
-  console.log(data);
   for(obj of data) {
     var dateString = convertISOtoDate(obj.date);
-
-    // if(dateArr[0] == month){
-      // $("#toAdd").append("<tr> <th scope='col'>" + obj.name + "</th>" + "<th scope='col'>" + dateString + "</th>" + "</th>" + "<th scope='col'>" + obj.type + "</th>" + "</tr>");
-    // } else if(month == "All") {
       $("#toAdd").append("<tr> <th scope='col'>" + obj.name + "</th>" + "<th scope='col'>" + dateString + "</th>" + "</th>" + "<th scope='col'>" + obj.type + "</th>" + "</tr>");
-    // }
   }
 });
 
 socket.on("update-type", function(data, type){
   $("#toAdd").empty();
-  console.log(type);
   for(obj of data) {
     var dateString = convertISOtoDate(obj.date);
-    // if((obj.type).includes(type)){
-      // $("#toAdd").append("<tr> <th scope='col'>" + obj.name + "</th>" + "<th scope='col'>" + dateString + "</th>" + "</th>" + "<th scope='col'>" + obj.type + "</th>" + "</tr>");
-    // } else if(type == "All") {
       $("#toAdd").append("<tr> <th scope='col'>" + obj.name + "</th>" + "<th scope='col'>" + dateString + "</th>" + "</th>" + "<th scope='col'>" + obj.type + "</th>" + "</tr>");
-    // }
   }
 });
 
 socket.on("update-name", function(data, inputStr){
   $("#toAdd").empty();
-  console.log(inputStr);
   for(obj of data) {
     if((obj.name).toLowerCase().includes(inputStr.toLowerCase())){
       var dateString = convertISOtoDate(obj.date);

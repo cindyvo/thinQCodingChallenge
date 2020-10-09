@@ -48,6 +48,8 @@ function parseData(obj, year) {
 };
 
 //asynchronous code for accessing a public API
+//had to add in increments of 5
+//could update this by using the pool, but because this was used once, there was less of a need to use the pool
 (async function loop() {
     for (let year = 2000; year <= 2021; year++) {
       await fetch("https://calendarific.com/api/v2/holidays?api_key=183e14057605ed02d97ea1672ba509a1a17335a0&country=US&year=" + year).then(response => {
