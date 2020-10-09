@@ -8,21 +8,21 @@ const mysql = require('mysql');
 //new host us-cdbr-east-02.cleardb.com
 //new name heroku_6d73b950ea37501
 
-// var con = mysql.createConnection({
-//   host: "localhost",
-//   user: "root",
-//   port: 3306,
-//   password: "password123",
-//   database: "mydb"
-// });
-
 var con = mysql.createConnection({
-  host: "us-cdbr-east-02.cleardb.com",
-  user: "bd279b35413a9b",
+  host: "localhost",
+  user: "root",
   port: 3306,
-  password: "4daa6363",
-  database: "heroku_6d73b950ea37501"
+  password: "password123",
+  database: "mydb"
 });
+
+// var con = mysql.createConnection({
+//   host: "us-cdbr-east-02.cleardb.com",
+//   user: "bd279b35413a9b",
+//   port: 3306,
+//   password: "4daa6363",
+//   database: "heroku_6d73b950ea37501"
+// });
 con.connect(function(err) {
   if (err) throw err;
 
