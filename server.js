@@ -3,8 +3,8 @@ const app = express();
 const http = require("http");
 const https = require('https');
 const server = http.createServer(app);
-const io = require('socket.io').listen(server);
 server.listen(process.env.PORT || 3000);
+const io = require('socket.io').listen(server);
 //new username bd279b35413a9b
 //new password 4daa6363
 //database URL mysql://bd279b35413a9b:4daa6363@us-cdbr-east-02.cleardb.com/heroku_6d73b950ea37501?reconnect=true
