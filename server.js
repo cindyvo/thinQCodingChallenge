@@ -4,8 +4,7 @@ const http = require("http");
 const https = require('https');
 const server = http.createServer(app);
 const io = require('socket.io').listen(server);
-server.listen(3000);
-
+server.listen(process.env.PORT || 3000);
 //new username bd279b35413a9b
 //new password 4daa6363
 //database URL mysql://bd279b35413a9b:4daa6363@us-cdbr-east-02.cleardb.com/heroku_6d73b950ea37501?reconnect=true
@@ -28,16 +27,16 @@ io.on('connection', function(socket) {
 
   socket.on("load", function() {
     var con = mysql.createConnection({
-      host: "localhost",
-      user: "root",
-      port: 3306,
-      password: "password123",
-      database: "mydb"
-      // host: "us-cdbr-east-02.cleardb.com",
-      // user: "bd279b35413a9b",
+      // host: "localhost",
+      // user: "root",
       // port: 3306,
-      // password: "4daa6363",
-      // database: "heroku_6d73b950ea37501"
+      // password: "password123",
+      // database: "mydb"
+      host: "us-cdbr-east-02.cleardb.com",
+      user: "bd279b35413a9b",
+      port: 3306,
+      password: "4daa6363",
+      database: "heroku_6d73b950ea37501"
     });
 
     con.connect(function(err) {
@@ -56,16 +55,16 @@ io.on('connection', function(socket) {
 
   socket.on("get-year", function(year) {
     var con = mysql.createConnection({
-      host: "localhost",
-      user: "root",
-      port: 3306,
-      password: "password123",
-      database: "mydb"
-      // host: "us-cdbr-east-02.cleardb.com",
-      // user: "bd279b35413a9b",
+      // host: "localhost",
+      // user: "root",
       // port: 3306,
-      // password: "4daa6363",
-      // database: "heroku_6d73b950ea37501"
+      // password: "password123",
+      // database: "mydb"
+      host: "us-cdbr-east-02.cleardb.com",
+      user: "bd279b35413a9b",
+      port: 3306,
+      password: "4daa6363",
+      database: "heroku_6d73b950ea37501"
     });
 
     con.connect(function(err) {
@@ -85,16 +84,16 @@ io.on('connection', function(socket) {
   socket.on("get-month", function(month, year) {
 
     var con = mysql.createConnection({
-      host: "localhost",
-      user: "root",
-      port: 3306,
-      password: "password123",
-      database: "mydb"
-      // host: "us-cdbr-east-02.cleardb.com",
-      // user: "bd279b35413a9b",
+      // host: "localhost",
+      // user: "root",
       // port: 3306,
-      // password: "4daa6363",
-      // database: "heroku_6d73b950ea37501"
+      // password: "password123",
+      // database: "mydb"
+      host: "us-cdbr-east-02.cleardb.com",
+      user: "bd279b35413a9b",
+      port: 3306,
+      password: "4daa6363",
+      database: "heroku_6d73b950ea37501"
     });
 
     con.connect(function(err) {
@@ -119,16 +118,16 @@ io.on('connection', function(socket) {
   socket.on("get-type", function(type, year) {
 
     var con = mysql.createConnection({
-      host: "localhost",
-      user: "root",
-      port: 3306,
-      password: "password123",
-      database: "mydb"
-      // host: "us-cdbr-east-02.cleardb.com",
-      // user: "bd279b35413a9b",
+      // host: "localhost",
+      // user: "root",
       // port: 3306,
-      // password: "4daa6363",
-      // database: "heroku_6d73b950ea37501"
+      // password: "password123",
+      // database: "mydb"
+      host: "us-cdbr-east-02.cleardb.com",
+      user: "bd279b35413a9b",
+      port: 3306,
+      password: "4daa6363",
+      database: "heroku_6d73b950ea37501"
     });
 
     con.connect(function(err) {
@@ -155,16 +154,16 @@ io.on('connection', function(socket) {
   socket.on("get-inputStr", function(inputStr, year) {
 
     var con = mysql.createConnection({
-      host: "localhost",
-      user: "root",
-      port: 3306,
-      password: "password123",
-      database: "mydb"
-      // host: "us-cdbr-east-02.cleardb.com",
-      // user: "bd279b35413a9b",
+      // host: "localhost",
+      // user: "root",
       // port: 3306,
-      // password: "4daa6363",
-      // database: "heroku_6d73b950ea37501"
+      // password: "password123",
+      // database: "mydb"
+      host: "us-cdbr-east-02.cleardb.com",
+      user: "bd279b35413a9b",
+      port: 3306,
+      password: "4daa6363",
+      database: "heroku_6d73b950ea37501"
     });
 
     con.connect(function(err) {
