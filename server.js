@@ -28,16 +28,16 @@ io.on('connection', function(socket) {
   socket.on("load", function() {
     pool = mysql.createPool({
       connectionLimit: 10,
-      host: "localhost",
-      user: "root",
-      port: 3306,
-      password: "password123",
-      database: "mydb"
-      // host: "us-cdbr-east-02.cleardb.com",
-      // user: "bd279b35413a9b",
+      // host: "localhost",
+      // user: "root",
       // port: 3306,
-      // password: "4daa6363",
-      // database: "heroku_6d73b950ea37501"
+      // password: "password123",
+      // database: "mydb"
+      host: "us-cdbr-east-02.cleardb.com",
+      user: "bd279b35413a9b",
+      port: 3306,
+      password: "4daa6363",
+      database: "heroku_6d73b950ea37501"
     });
 
     pool.getConnection(function(err, con){
