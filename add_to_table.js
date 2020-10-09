@@ -5,11 +5,16 @@ const fetch = require("node-fetch");
 
 function parseData(obj, year) {
   var con = mysql.createConnection({
-    host: "localhost",
-    user: "root",
+    // host: "localhost",
+    // user: "root",
+    // port: 3306,
+    // password: "password123",
+    // database: "mydb"
+    host: "us-cdbr-east-02.cleardb.com",
+    user: "bd279b35413a9b",
     port: 3306,
-    password: "password123",
-    database: "mydb"
+    password: "4daa6363",
+    database: "heroku_6d73b950ea37501"
   });
 
   con.connect(function(err) {
@@ -29,6 +34,7 @@ function parseData(obj, year) {
         var sql = "INSERT INTO holidays" + year + " (name, country, date, type) VALUES (" + name + ", " + country + ", " + date + ", " + type + ")";
         con.query(sql, function (err, result) {
           if (err) throw err;
+          console.log("add to table")
 
         });
 
