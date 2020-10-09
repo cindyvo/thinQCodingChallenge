@@ -7,3 +7,10 @@ header {
   font-size: 50px;
 
 }
+
+#yearStr{
+  position: absolute;
+  left: 45%;
+  top: 10%;
+
+}

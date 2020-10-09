@@ -6,6 +6,8 @@ const server = http.createServer(app);
 const io = require('socket.io').listen(server);
 server.listen(3000);
 
+var monthHash = {"January":"01","February":"02","March":"03","April":"04","May":"05","June":"06","July":"07","August":"08","September":"09","October":"10","November":"11","December":"12"};
+
 const mysql = require('mysql');
 
 app.use(express.static(__dirname));
@@ -30,7 +32,7 @@ io.on('connection', function(socket) {
     con.connect(function(err) {
       if (err) throw err;
 
-      var sql = "SELECT * FROM holidays";
+      var sql = "SELECT * FROM holidays2020";
       con.query(sql, function (err, result) {
         if (err) throw err;
           socket.emit("update", result);
@@ -41,8 +43,7 @@ io.on('connection', function(socket) {
 
   });
 
-  socket.on("get-month", function(month) {
-
+  socket.on("get-year", function(year) {
     var con = mysql.createConnection({
       host: "localhost",
       user: "root",
@@ -54,7 +55,36 @@ io.on('connection', function(socket) {
     con.connect(function(err) {
       if (err) throw err;
 
-      var sql = "SELECT * FROM holidays";
+      var sql = "SELECT * FROM holidays"+year;
+      con.query(sql, function (err, result) {
+        if (err) throw err;
+          socket.emit("update-year", result);
+
+      });
+
+    });
+
+  });
+
+  socket.on("get-month", function(month, year) {
+
+    var con = mysql.createConnection({
+      host: "localhost",
+      user: "root",
+      port: 3306,
+      password: "password123",
+      database: "mydb"
+    });
+
+    con.connect(function(err) {
+      if (err) throw err;
+      var sql;
+      if(month == "All"){
+          sql = "SELECT * FROM holidays"+year;
+      }
+      else{
+        sql = "SELECT * FROM holidays"+year+" WHERE date LIKE '_____"+monthHash[month]+"%'";
+      }
       con.query(sql, function (err, result) {
         if (err) throw err;
           socket.emit("update-month", result, month);
@@ -65,7 +95,7 @@ io.on('connection', function(socket) {
 
   });
 
-  socket.on("get-type", function(type) {
+  socket.on("get-type", function(type, year) {
 
     var con = mysql.createConnection({
       host: "localhost",
@@ -77,8 +107,15 @@ io.on('connection', function(socket) {
 
     con.connect(function(err) {
       if (err) throw err;
+      var sql;
 
-      var sql = "SELECT * FROM holidays";
+      if(type == "All"){
+        sql = "SELECT * FROM holidays"+year;
+      }
+      else{
+        sql = "SELECT * FROM holidays"+year+" WHERE type LIKE '%"+type+"%'";
+      }
+
       con.query(sql, function (err, result) {
         if (err) throw err;
           socket.emit("update-type", result, type);
@@ -89,7 +126,7 @@ io.on('connection', function(socket) {
 
   });
 
-  socket.on("get-inputStr", function(inputStr) {
+  socket.on("get-inputStr", function(inputStr, year) {
 
     var con = mysql.createConnection({
       host: "localhost",
@@ -102,7 +139,7 @@ io.on('connection', function(socket) {
     con.connect(function(err) {
       if (err) throw err;
 
-      var sql = "SELECT * FROM holidays";
+      var sql = "SELECT * FROM holidays"+year;
       con.query(sql, function (err, result) {
         if (err) throw err;
           socket.emit("update-name", result, inputStr);

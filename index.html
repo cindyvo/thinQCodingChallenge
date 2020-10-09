@@ -13,8 +13,11 @@
   </head>
   <body>
     <header>
-      Table of US Holidays in 2019
+      Table of US Holidays in 2020
     </header>
+    <form class="form-inline my-2 my-lg-0" autocomplete="off">
+        <input id = "yearStr" class="form-control mr-sm-2" placeholder="Year">
+      </form>
     <nav>
   <div class="nav nav-tabs" id="nav-tab" role="tablist">
     <a class="nav-item nav-link active" id="nav-name-tab" data-toggle="tab" href="#nav-name" role="tab" aria-controls="nav-name" aria-selected="true">Contains String</a>
@@ -24,9 +27,9 @@
 </nav>
 <div class="tab-content" id="nav-tabContent">
   <div class="tab-pane fade show active" id="nav-name" role="tabpanel" aria-labelledby="nav-name-tab">
-    <form class="form-inline my-2 my-lg-0">
+    <form class="form-inline my-2 my-lg-0" autocomplete="off">
         <input id = "inputStr" class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-        <button class="btn btn-outline-dark my-2 my-sm-0" type="submit" onclick="nameButtonClicked()">Search</button>
+        <button type="button" class="btn btn-outline-dark my-2 my-sm-0" onclick="nameButtonClicked()">Search</button>
       </form>
     </div>
   <div class="tab-pane fade" id="nav-month" role="tabpanel" aria-labelledby="nav-month-tab">

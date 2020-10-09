@@ -1,4 +1,4 @@
-// Creating a table in the mySQL server
+// Deleting a specific column
 
 const mysql = require('mysql');
 
@@ -18,7 +18,7 @@ con.connect(function(err) {
   var sql = "ALTER TABLE holidays \n DROP COLUMN description;";
   con.query(sql, function (err, result) {
     if (err) throw err;
-
+    console.log("Column deleted");
   });
 
 });

@@ -1,4 +1,4 @@
-// (SET UP) Establishing a connection with mySQL Server for the first time
+// (SET UP) Establishing a connection with mySQL Server for the first time and creating a database
 
 const mysql = require('mysql');
 

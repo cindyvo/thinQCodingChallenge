@@ -3,7 +3,7 @@ const mysql = require('mysql');
 const Promise = require('promise');
 const fetch = require("node-fetch");
 
-function parseData(obj) {
+function parseData(obj, year) {
   var con = mysql.createConnection({
     host: "localhost",
     user: "root",
@@ -26,7 +26,7 @@ function parseData(obj) {
         var type = "'"+holiday.type+"'";
         var locations = "'"+holiday.location+"'";
 
-        var sql = "INSERT INTO holidays (name, country, date, type) VALUES (" + name + ", " + country + ", " + date + ", " + type + ")";
+        var sql = "INSERT INTO holidays" + year + " (name, country, date, type) VALUES (" + name + ", " + country + ", " + date + ", " + type + ")";
         con.query(sql, function (err, result) {
           if (err) throw err;
 
@@ -41,13 +41,17 @@ function parseData(obj) {
 
 };
 
-const fetchPromise = fetch("https://calendarific.com/api/v2/holidays?api_key=183e14057605ed02d97ea1672ba509a1a17335a0&country=US&year=2019");
-fetchPromise.then(response => {
-  return response.json();
-})
-.then(function(result){
-  return JSON.parse(JSON.stringify(result));
-})
-.then(function(newResult) {
-  parseData(newResult);
-});
+//asynchronous code for accessing a public API
+(async function loop() {
+    for (let year = 2000; year <= 2021; year++) {
+      await fetch("https://calendarific.com/api/v2/holidays?api_key=183e14057605ed02d97ea1672ba509a1a17335a0&country=US&year=" + year).then(response => {
+        return response.json();
+      })
+      .then(function(result){
+        return JSON.parse(JSON.stringify(result));
+      })
+      .then(function(newResult) {
+        parseData(newResult, year);
+      });
+    }
+})();

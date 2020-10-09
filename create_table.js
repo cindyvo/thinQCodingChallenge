@@ -1,4 +1,4 @@
-// Creating a table in the mySQL server
+// Creating tables in the mySQL server
 
 const mysql = require('mysql');
 
@@ -14,9 +14,19 @@ var con = mysql.createConnection({
 con.connect(function(err) {
   if (err) throw err;
 
-  var sql = "CREATE TABLE holidays (id INT AUTO_INCREMENT PRIMARY KEY, name VARCHAR(255), country VARCHAR(255), date VARCHAR(255), type VARCHAR(255))";
-  con.query(sql, function (err, result) {
-    if (err) throw err;
-  });
+
+  for(var i = 2000; i <= 2021; i++){
+
+    var sql = "CREATE TABLE holidays" + i +" (id INT AUTO_INCREMENT PRIMARY KEY, name VARCHAR(255), country VARCHAR(255), date VARCHAR(255), type VARCHAR(255))";
+    con.query(sql, function (err, result) {
+      if (err) throw err;
+      console.log("Table created");
+
+    });
+
+  }
+
+  console.log("Tables Created");
+
 
 });
