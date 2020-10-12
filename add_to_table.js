@@ -2,19 +2,21 @@ const mysql = require('mysql');
 
 const Promise = require('promise');
 const fetch = require("node-fetch");
+require('dotenv').config();
+
+var host = "https://calendarific.com/";
+var path = "api/v2/holidays?";
+var api_key = "api_key="+process.env.calendarapikey;
+var search_params = "&country=US&year=";
 
 function parseData(obj, year) {
   var con = mysql.createConnection({
-    host: "localhost",
-    user: "root",
-    port: 3306,
-    password: "password123",
-    database: "mydb"
-    // host: "us-cdbr-east-02.cleardb.com",
-    // user: "bd279b35413a9b",
-    // port: 3306,
-    // password: "4daa6363",
-    // database: "heroku_6d73b950ea37501"
+    host: process.env.host,
+    user: process.env.username,
+    port: process.env.PORT,
+    password: process.env.password,
+    database: process.env.database
+
   });
 
   con.connect(function(err) {
@@ -52,7 +54,7 @@ function parseData(obj, year) {
 //could update this by using the pool, but because this was used once, there was less of a need to use the pool
 (async function loop() {
     for (let year = 2000; year <= 2021; year++) {
-      await fetch("https://calendarific.com/api/v2/holidays?api_key=183e14057605ed02d97ea1672ba509a1a17335a0&country=US&year=" + year).then(response => {
+      await fetch(host + path + api_key+ search_params + year).then(response => {
         return response.json();
       })
       .then(function(result){

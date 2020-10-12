@@ -44,6 +44,11 @@ function validateString(inputStr, validate){
       $("#invalidYear").css("visibility", "visible");
       return true;
 
+    } else if(inputStr == "") {
+      $("#yearStr").addClass("is-invalid");
+      $("#invalidYear").css("visibility", "visible");
+      return true;
+
     }
 
   }
@@ -54,7 +59,6 @@ function validateString(inputStr, validate){
   }
 
   return false;
-
 
 }
 

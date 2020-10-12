@@ -1,24 +1,16 @@
 // Creating tables in the mySQL server
 
 const mysql = require('mysql');
+require('dotenv').config();
 
-//new username bd279b35413a9b
-//new password 4daa6363
-//database URL mysql://bd279b35413a9b:4daa6363@us-cdbr-east-02.cleardb.com/heroku_6d73b950ea37501?reconnect=true
-//new host us-cdbr-east-02.cleardb.com
-//new name heroku_6d73b950ea37501
 
 var con = mysql.createConnection({
-  host: "localhost",
-  user: "root",
-  port: 3306,
-  password: "password123",
-  database: "mydb"
-    // host: "us-cdbr-east-02.cleardb.com",
-    // user: "bd279b35413a9b",
-    // port: 3306,
-    // password: "4daa6363",
-    // database: "heroku_6d73b950ea37501"
+  host: process.env.host,
+  user: process.env.username,
+  port: process.env.PORT,
+  password: process.env.password,
+  database: process.env.database
+  
 });
 
 

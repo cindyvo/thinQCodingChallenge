@@ -1,12 +1,13 @@
 //Deleting tables in the mySQL Server
 const mysql = require('mysql');
+require('dotenv').config();
 
 var con = mysql.createConnection({
-  host: "localhost",
-  user: "root",
-  port: 3306,
-  password: "password123",
-  database: "mydb"
+  host: process.env.host,
+  user: process.env.username,
+  port: process.env.PORT,
+  password: process.env.password,
+  database: process.env.database
 });
 
 con.connect(function(err) {

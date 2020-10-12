@@ -7,12 +7,7 @@ server.listen(process.env.PORT || 3000);
 const io = require('socket.io').listen(server);
 const mysql = require('mysql');
 
-//the following information is for hosting on heroku
-//new username bd279b35413a9b
-//new password 4daa6363
-//database URL mysql://bd279b35413a9b:4daa6363@us-cdbr-east-02.cleardb.com/heroku_6d73b950ea37501?reconnect=true
-//new host us-cdbr-east-02.cleardb.com
-//new name heroku_6d73b950ea37501
+require('dotenv').config()
 
 var monthHash = {"January":"01","February":"02","March":"03","April":"04","May":"05","June":"06","July":"07","August":"08","September":"09","October":"10","November":"11","December":"12"};
 
@@ -30,21 +25,17 @@ io.on('connection', function(socket) {
   var pool;
 
   //gets data for the initialization of the webpage and passes it
-  socket.on("load", function() { 
+  socket.on("load", function() {
     pool = mysql.createPool({
       connectionLimit: 10,
-      //alternating between testing on my localhost and on heroku
-      host: "localhost",
-      user: "root",
-      port: 3306,
-      password: "password123",
-      database: "mydb"
-      // host: "us-cdbr-east-02.cleardb.com",
-      // user: "bd279b35413a9b",
-      // port: 3306,
-      // password: "4daa6363",
-      // database: "heroku_6d73b950ea37501"
+      host: process.env.host,
+      user: process.env.user,
+      password: process.env.password,
+      database: process.env.database
+
     });
+
+
 
     pool.getConnection(function(err, con){
       var sql = "SELECT * FROM holidays2020";
@@ -60,16 +51,11 @@ io.on('connection', function(socket) {
   //gets records for holidays of that year and passes them
   socket.on("get-year", function(year) {
     var con = mysql.createConnection({
-      host: "localhost",
-      user: "root",
-      port: 3306,
-      password: "password123",
-      database: "mydb"
-    //   host: "us-cdbr-east-02.cleardb.com",
-    //   user: "bd279b35413a9b",
-    //   port: 3306,
-    //   password: "4daa6363",
-    //   database: "heroku_6d73b950ea37501"
+      host: process.env.host,
+      user: process.env.user,
+      password: process.env.password,
+      database: process.env.database
+
     });
     pool.getConnection(function(err,con){
       var sql = "SELECT * FROM holidays"+year;
@@ -88,16 +74,11 @@ io.on('connection', function(socket) {
   socket.on("get-month", function(month, year) {
 
     var con = mysql.createConnection({
-      host: "localhost",
-      user: "root",
-      port: 3306,
-      password: "password123",
-      database: "mydb"
-    //   host: "us-cdbr-east-02.cleardb.com",
-    //   user: "bd279b35413a9b",
-    //   port: 3306,
-    //   password: "4daa6363",
-    //   database: "heroku_6d73b950ea37501"
+      host: process.env.host,
+      user: process.env.user,
+      password: process.env.password,
+      database: process.env.database
+
     });
 
     pool.getConnection(function(err,con){
@@ -122,16 +103,11 @@ io.on('connection', function(socket) {
   socket.on("get-type", function(type, year) {
 
     var con = mysql.createConnection({
-      host: "localhost",
-      user: "root",
-      port: 3306,
-      password: "password123",
-      database: "mydb"
-    //   host: "us-cdbr-east-02.cleardb.com",
-    //   user: "bd279b35413a9b",
-    //   port: 3306,
-    //   password: "4daa6363",
-    //   database: "heroku_6d73b950ea37501"
+      host: process.env.host,
+      user: process.env.user,
+      password: process.env.password,
+      database: process.env.database
+
     });
 
     pool.getConnection(function(err, con){
@@ -158,16 +134,11 @@ io.on('connection', function(socket) {
   socket.on("get-inputStr", function(inputStr, year) {
 
     var con = mysql.createConnection({
-      host: "localhost",
-      user: "root",
-      port: 3306,
-      password: "password123",
-      database: "mydb"
-    //   host: "us-cdbr-east-02.cleardb.com",
-    //   user: "bd279b35413a9b",
-    //   port: 3306,
-    //   password: "4daa6363",
-    //   database: "heroku_6d73b950ea37501"
+      host: process.env.host,
+      user: process.env.user,
+      password: process.env.password,
+      database: process.env.database
+
     });
 
     pool.getConnection(function(err,con){
