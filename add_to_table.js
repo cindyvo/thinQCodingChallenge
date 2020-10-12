@@ -56,6 +56,9 @@ function parseData(obj, year) {
         return response.json();
       })
       .then(function(result){
+        if(result.statusCode != "200"){
+          console.log("Unable to reach the API. Please try again or check it out.");
+        }
         return JSON.parse(JSON.stringify(result));
       })
       .then(function(newResult) {

@@ -9,15 +9,16 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"> </script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"> </script>
     <script src="/socket.io/socket.io.js"></script>
-    <script src ="sockets.js" type="text/javascript"></script>
     <link rel="stylesheet" href="styles.css">
+    <script src ="sockets.js" type="text/javascript"></script>
   </head>
   <body>
     <header>
       Table of US Holidays in 2020
     </header>
     <form class="form-inline my-2 my-lg-0" autocomplete="off">
-        <input id = "yearStr" class="form-control mr-sm-2" placeholder="Year">
+        <input id = "yearStr" class="form-control" placeholder="Year">
+        <div id="invalidYear" class='invalid-feedback'> Please enter a year between 2000 and 2021 (inclusive for both). </div>
       </form>
     <nav>
   <div class="nav nav-tabs" id="nav-tab" role="tablist">
@@ -29,7 +30,8 @@
 <div class="tab-content" id="nav-tabContent">
   <div class="tab-pane fade show active" id="nav-name" role="tabpanel" aria-labelledby="nav-name-tab">
     <form class="form-inline my-2 my-lg-0" autocomplete="off">
-        <input id = "inputStr" class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+        <input id = "inputStr" class="form-control" type="search" placeholder="Search" aria-label="Search">
+        <div id= "invalidName" class='invalid-feedback'> Please input letters and numbers only. Backspaces and spaces are okay. </div>
         <button type="button" class="btn btn-outline-dark my-2 my-sm-0" onclick="nameButtonClicked()">Search</button>
       </form>
     </div>

@@ -30,20 +30,20 @@ io.on('connection', function(socket) {
   var pool;
 
   //gets data for the initialization of the webpage and passes it
-  socket.on("load", function() {
+  socket.on("load", function() { 
     pool = mysql.createPool({
       connectionLimit: 10,
       //alternating between testing on my localhost and on heroku
-      // host: "localhost",
-      // user: "root",
-      // port: 3306,
-      // password: "password123",
-      // database: "mydb"
-      host: "us-cdbr-east-02.cleardb.com",
-      user: "bd279b35413a9b",
+      host: "localhost",
+      user: "root",
       port: 3306,
-      password: "4daa6363",
-      database: "heroku_6d73b950ea37501"
+      password: "password123",
+      database: "mydb"
+      // host: "us-cdbr-east-02.cleardb.com",
+      // user: "bd279b35413a9b",
+      // port: 3306,
+      // password: "4daa6363",
+      // database: "heroku_6d73b950ea37501"
     });
 
     pool.getConnection(function(err, con){
@@ -59,18 +59,18 @@ io.on('connection', function(socket) {
 
   //gets records for holidays of that year and passes them
   socket.on("get-year", function(year) {
-    // var con = mysql.createConnection({
-    //   // host: "localhost",
-    //   // user: "root",
-    //   // port: 3306,
-    //   // password: "password123",
-    //   // database: "mydb"
+    var con = mysql.createConnection({
+      host: "localhost",
+      user: "root",
+      port: 3306,
+      password: "password123",
+      database: "mydb"
     //   host: "us-cdbr-east-02.cleardb.com",
     //   user: "bd279b35413a9b",
     //   port: 3306,
     //   password: "4daa6363",
     //   database: "heroku_6d73b950ea37501"
-    // });
+    });
     pool.getConnection(function(err,con){
       var sql = "SELECT * FROM holidays"+year;
       con.query(sql, function (err, result) {
@@ -87,18 +87,18 @@ io.on('connection', function(socket) {
   //gets records for that month of the current year and passes them
   socket.on("get-month", function(month, year) {
 
-    // var con = mysql.createConnection({
-    //   // host: "localhost",
-    //   // user: "root",
-    //   // port: 3306,
-    //   // password: "password123",
-    //   // database: "mydb"
+    var con = mysql.createConnection({
+      host: "localhost",
+      user: "root",
+      port: 3306,
+      password: "password123",
+      database: "mydb"
     //   host: "us-cdbr-east-02.cleardb.com",
     //   user: "bd279b35413a9b",
     //   port: 3306,
     //   password: "4daa6363",
     //   database: "heroku_6d73b950ea37501"
-    // });
+    });
 
     pool.getConnection(function(err,con){
       var sql;
@@ -111,7 +111,7 @@ io.on('connection', function(socket) {
       con.query(sql, function (err, result) {
         con.release();
         if (err) throw err;
-        socket.emit("update-month", result, month);
+        socket.emit("update-month", result);
 
       });
     });
@@ -121,18 +121,18 @@ io.on('connection', function(socket) {
   //gets records of that type of the given year and passes them
   socket.on("get-type", function(type, year) {
 
-    // var con = mysql.createConnection({
-    //   // host: "localhost",
-    //   // user: "root",
-    //   // port: 3306,
-    //   // password: "password123",
-    //   // database: "mydb"
+    var con = mysql.createConnection({
+      host: "localhost",
+      user: "root",
+      port: 3306,
+      password: "password123",
+      database: "mydb"
     //   host: "us-cdbr-east-02.cleardb.com",
     //   user: "bd279b35413a9b",
     //   port: 3306,
     //   password: "4daa6363",
     //   database: "heroku_6d73b950ea37501"
-    // });
+    });
 
     pool.getConnection(function(err, con){
       var sql;
@@ -147,7 +147,7 @@ io.on('connection', function(socket) {
       con.query(sql, function (err, result) {
         con.release();
         if (err) throw err;
-        socket.emit("update-type", result, type);
+        socket.emit("update-type", result);
       });
 
     });
@@ -157,18 +157,18 @@ io.on('connection', function(socket) {
   //
   socket.on("get-inputStr", function(inputStr, year) {
 
-    // var con = mysql.createConnection({
-    //   // host: "localhost",
-    //   // user: "root",
-    //   // port: 3306,
-    //   // password: "password123",
-    //   // database: "mydb"
+    var con = mysql.createConnection({
+      host: "localhost",
+      user: "root",
+      port: 3306,
+      password: "password123",
+      database: "mydb"
     //   host: "us-cdbr-east-02.cleardb.com",
     //   user: "bd279b35413a9b",
     //   port: 3306,
     //   password: "4daa6363",
     //   database: "heroku_6d73b950ea37501"
-    // });
+    });
 
     pool.getConnection(function(err,con){
       var sql = "SELECT * FROM holidays"+year;

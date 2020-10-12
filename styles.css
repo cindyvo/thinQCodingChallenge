@@ -13,3 +13,15 @@ header {
   left: 45%;
   top: 10%;
 }
+
+#invalidName{
+  display: inline-block;
+  visibility: hidden;
+}
+
+#invalidYear {
+  display: inline-block;
+  visibility: hidden;
+  position: relative;
+  left: 40%;
+}
