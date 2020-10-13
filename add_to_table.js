@@ -12,7 +12,7 @@ var search_params = "&country=US&year=";
 function parseData(obj, year) {
   var con = mysql.createConnection({
     host: process.env.host,
-    user: process.env.username,
+    user: process.env.user,
     port: process.env.PORT,
     password: process.env.password,
     database: process.env.database
