@@ -17,6 +17,8 @@ var currElement = null;
 $(function () {
   $('[data-toggle="popover"]').popover({html:true});
 })
+
+
 //function that converts an iso string to a more human readable date string
 function validateString(inputStr, validate){
   if(inputStr.slice(-1) == "\n") {
@@ -245,45 +247,50 @@ socket.on("update-name", function(data, inputStr){
 
 });
 
-socket.on("update-wiki", function(htmlString, pageId){
+socket.on("update-wiki", function(htmlString, pageId, imageURL){
   if(pageId == -100){
+
+    if(previousElement != null) {
+      $(previousElement).popover("hide");
+    }
 
     $(currElement).attr("data-content", htmlString);
     $(currElement).popover('show');
+
     previousElement = currElement;
-    break;
-
-  }
-
-  if(previousElement != null) {
-    $(previousElement).popover("hide");
-  }
-
- if($(currElement).hasClass("decorateName")) {
-   if(document.getElementsByClassName('popover fade show bs-popover-right').length != 0) {
-
-     var content = htmlString.replace(/<\/?span[^>]*>/g,"");
-     content = content + "..."+ "\n For more information: please visit this website: " + "http://en.wikipedia.org/?curid=" + pageId;
-     $(currElement).attr("data-content", content);
-
-     $(currElement).popover('show');
 
 
-   } else {
+  } else {
 
-     var elems = document.getElementsByClassName('popover fade show bs-popover-right');
-     for(var i = 0; i < elems.length; i++){
-       elems[i].popover('hide');
+    if(previousElement != null) {
+      $(previousElement).popover("hide");
+    }
+
+   if($(currElement).hasClass("decorateName")) {
+     if(document.getElementsByClassName('popover show bs-popover-right').length != 0) {
+
+       var content = htmlString.replace(/<\/?span[^>]*>/g,"");
+       content = "<img style='width:100px;position:relative;left:30%;' src='"+ imageURL +"'>" + "<br/>"+content + "..."+ "\n For more information: please visit this website: " + "<a href='http://en.wikipedia.org/?curid=" + pageId +"'> http://en.wikipedia.org/?curid=" + pageId+"</a>";
+       $(currElement).attr("data-content", content);
+
+       $(currElement).popover('show');
+
+
+     } else {
+       
+
+       var content = htmlString.replace(/<\/?span[^>]*>/g,"");
+       content = "<img style='width:100px;position:relative;left:30%;' src='"+ imageURL +"'>" + "<br/>"+content + "..."+ "\n For more information: please visit this website: " + "<a href='http://en.wikipedia.org/?curid=" + pageId +"'> http://en.wikipedia.org/?curid=" + pageId+"</a>";
+       $(currElement).attr("data-content", content);
+       $(currElement).popover('show');
+
      }
 
-     var content = htmlString.replace(/<\/?span[^>]*>/g,"");
-     content = content + "..."+ "\n For more information: please visit this website: " + "<a href='http://en.wikipedia.org/?curid=" + pageId +"'> http://en.wikipedia.org/?curid=" + pageId+"</a>";
-     $(currElement).attr("data-content", content);
-     $(currElement).popover('show');
-
    }
+   previousElement = currElement;
 
- }
- previousElement = currElement;
+  }
+
+
 
 });

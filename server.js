@@ -180,47 +180,49 @@ io.on('connection', function(socket) {
       return response.json();
     })
     .then(function(result){
-      // var title = result.query.search[0].title;
-      // if(title.includes(" ")) {
-      //   var titleArr = title.split(" ");
-      //   title = "";
-      //   for(var i = 0; i < titleArr.length; i++){
-      //
-      //     if(i == titleArr.length - 1) {
-      //       title = title + titleArr[i];
-      //     } else {
-      //       title = title + titleArr[i] + "%20";
-      //
-      //     }
-      //
-      //   }
-      //
-      // }
-      //
-      // var titleString = "https://en.wikipedia.org/w/api.php?action=query&format=json&prop=pageimages&list=&titles=" + title
-      // fetch(titleString).then(response => {
-      //   if(response.status != 200){
-      //     console.log("We could not access the API. Please try again or check the status of the API.");
-      //     return;
-      //   }
-      //   return response.json();
-      // })
-      // .then(function(result){
-      //
-      //   return JSON.parse(JSON.stringify(result));
-      // })
-      // .then(function(newResult) {
-      //   parseData(newResult, year);
-      // }).catch(error => console.log(error))
+      var title = result.query.search[0].title;
+      if(result.query.search[0] != undefined) {
+        socket.emit("update-wiki", "Wiki could not find this in its API", -100, "");
 
+      }
 
+      if(title.includes(" ")) {
+        var titleArr = title.split(" ");
+        title = "";
+        for(var i = 0; i < titleArr.length; i++){
+          if(i == titleArr.length - 1) {
+            title = title + titleArr[i];
+          } else {
+            title = title + titleArr[i] + "%20";
+          }
+        }
+      }
 
+    
+      title = title.replace(" ", "");
+
+      var titleString = "https://en.wikipedia.org/w/api.php?action=query&format=json&prop=pageimages&list=&titles=" + title;
+
+      fetch(titleString).then(response => {
+        if(response.status != 200){
+          console.log("We could not access the API. Please try again or check the status of the API.");
+          return;
+        }
+        return response.json();
+      })
+      .then(function(newResult) {
         var htmlString = result.query.search[0].snippet;
         var pageId = result.query.search[0].pageid;
-        console.log(htmlString);
-        console.log(pageId);
-        socket.emit("update-wiki", htmlString, pageId);
+        var pageIdStr = "'"+pageId+"'";
+        var imageURL = "";
+        if((newResult.query.pages)[pageId].thumbnail != undefined) {
+           imageURL = (newResult.query.pages)[pageId].thumbnail.source;
+        }
 
+
+        socket.emit("update-wiki", htmlString, pageId, imageURL);
+
+      }).catch(error => console.log(error));
 
 
     }).catch(error => console.error(error));
