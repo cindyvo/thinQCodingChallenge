@@ -6,6 +6,8 @@ const server = http.createServer(app);
 server.listen(process.env.PORT || 3000);
 const io = require('socket.io').listen(server);
 const mysql = require('mysql');
+const Promise = require('promise');
+const fetch = require("node-fetch");
 
 require('dotenv').config()
 
@@ -149,6 +151,79 @@ io.on('connection', function(socket) {
         socket.emit("update-name", result, inputStr);
       });
     });
+
+  });
+
+  socket.on("wiki-data", function(holiday) {
+
+    if(holiday.includes(" ")){
+      holidayArr = holiday.split(" ");
+      holiday = "";
+      for(var i = 0; i < holidayArr.length; i++) {
+        if(i == holidayArr.length - 1) {
+          holiday = holiday + holidayArr[i];
+        } else {
+          holiday = holiday + holidayArr[i] + "%20";
+
+        }
+
+      }
+    }
+    console.log(holiday);
+    var stringSearch = "https://en.wikipedia.org/w/api.php?action=query&format=json&list=search&srsearch=" + holiday;
+
+    fetch(stringSearch).then(response => {
+      if(response.status != 200){
+        socket.emit("update-wiki", "Could not connect to Wiki API!", -100);
+      }
+
+      return response.json();
+    })
+    .then(function(result){
+      // var title = result.query.search[0].title;
+      // if(title.includes(" ")) {
+      //   var titleArr = title.split(" ");
+      //   title = "";
+      //   for(var i = 0; i < titleArr.length; i++){
+      //
+      //     if(i == titleArr.length - 1) {
+      //       title = title + titleArr[i];
+      //     } else {
+      //       title = title + titleArr[i] + "%20";
+      //
+      //     }
+      //
+      //   }
+      //
+      // }
+      //
+      // var titleString = "https://en.wikipedia.org/w/api.php?action=query&format=json&prop=pageimages&list=&titles=" + title
+      // fetch(titleString).then(response => {
+      //   if(response.status != 200){
+      //     console.log("We could not access the API. Please try again or check the status of the API.");
+      //     return;
+      //   }
+      //   return response.json();
+      // })
+      // .then(function(result){
+      //
+      //   return JSON.parse(JSON.stringify(result));
+      // })
+      // .then(function(newResult) {
+      //   parseData(newResult, year);
+      // }).catch(error => console.log(error))
+
+
+
+        var htmlString = result.query.search[0].snippet;
+        var pageId = result.query.search[0].pageid;
+        console.log(htmlString);
+        console.log(pageId);
+        socket.emit("update-wiki", htmlString, pageId);
+
+
+
+    }).catch(error => console.error(error));
 
   });
 

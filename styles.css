@@ -25,3 +25,9 @@ header {
   position: relative;
   left: 40%;
 }
+
+.decorateName {
+  cursor: pointer;
+  color: #2771FF;
+  text-decoration: underline;
+}

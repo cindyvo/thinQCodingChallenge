@@ -55,16 +55,18 @@ function parseData(obj, year) {
 (async function loop() {
     for (let year = 2000; year <= 2021; year++) {
       await fetch(host + path + api_key+ search_params + year).then(response => {
+        if(response.status != 200){
+          console.log("We could not access the API. Please try again or check the status of the API.");
+          return;
+        }
         return response.json();
       })
       .then(function(result){
-        if(result.statusCode != "200"){
-          console.log("Unable to reach the API. Please try again or check it out.");
-        }
+
         return JSON.parse(JSON.stringify(result));
       })
       .then(function(newResult) {
         parseData(newResult, year);
-      });
+      }).catch(error => console.log(error))
     }
 })();

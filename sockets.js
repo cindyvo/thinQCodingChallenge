@@ -10,7 +10,13 @@ const VALIDATE_YEAR = 6;
 
 //global year variable to keep track of current year
 var year = 2020;
+var previousElement = null;
+var currElement = null;
 
+//initalize popovers
+$(function () {
+  $('[data-toggle="popover"]').popover({html:true});
+})
 //function that converts an iso string to a more human readable date string
 function validateString(inputStr, validate){
   if(inputStr.slice(-1) == "\n") {
@@ -100,7 +106,7 @@ function addToHTML(data, update, inputStr) {
     //adds new year data
     for(obj of data) {
       var dateString = convertISOtoDate(obj.date);
-      $("#toAdd").append("<tr> <th scope='col'>" + obj.name + "</th>" + "<th scope='col'>" + dateString + "</th>" + "</th>" + "<th scope='col'>" + obj.type + "</th>" + "</tr>");
+      $("#toAdd").append("<tr> <th class='decorateName popover-dismiss' data-trigger ='focus' data-toggle='popover' scope='col' data-html = 'true'>" + obj.name + "</th>" + "<th scope='col'>" + dateString + "</th>" + "</th>" + "<th scope='col'>" + obj.type + "</th>" + "</tr>");
     }
 
   } else if(update == UPDATE_NAME){
@@ -109,7 +115,7 @@ function addToHTML(data, update, inputStr) {
     for(obj of data) {
       if((obj.name).toLowerCase().includes(inputStr.toLowerCase())){
         var dateString = convertISOtoDate(obj.date);
-          $("#toAdd").append("<tr> <th scope='col'>" + obj.name + "</th>" + "<th scope='col'>" + dateString + "</th>" + "</th>" + "<th scope='col'>" + obj.type + "</th>" + "</tr>");
+        $("#toAdd").append("<tr> <th class='decorateName popover-dismiss' data-trigger ='focus' data-toggle='popover' scope='col' data-html = 'true'>" + obj.name + "</th>" + "<th scope='col'>" + dateString + "</th>" + "</th>" + "<th scope='col'>" + obj.type + "</th>" + "</tr>");
 
       }
 
@@ -120,7 +126,7 @@ function addToHTML(data, update, inputStr) {
     $("#toAdd").empty();
     for(obj of data) {
       var dateString = convertISOtoDate(obj.date);
-        $("#toAdd").append("<tr> <th scope='col'>" + obj.name + "</th>" + "<th scope='col'>" + dateString + "</th>" + "</th>" + "<th scope='col'>" + obj.type + "</th>" + "</tr>");
+      $("#toAdd").append("<tr> <th class='decorateName popover-dismiss' data-trigger ='focus' data-toggle='popover' scope='col' data-html = 'true'>" + obj.name + "</th>" + "<th scope='col'>" + dateString + "</th>" + "</th>" + "<th scope='col'>" + obj.type + "</th>" + "</tr>");
     }
 
   }
@@ -132,6 +138,7 @@ function addToHTML(data, update, inputStr) {
 
   //keeps track of changes on the webpage
   $(document).ready(function(){
+
 
       $("#monthsSelect").change(function(){
           var selectedMonth = $(this).children("option:selected").text();
@@ -192,6 +199,17 @@ function addToHTML(data, update, inputStr) {
        }
      });
 
+     $("#toAdd").on('click', function(event) {
+       currElement = event.target;
+       socket.emit("wiki-data", $(currElement).text());
+
+     });
+
+     $("#topElement").on('click', function(event){
+       $('[data-toggle="popover"]').popover("hide");
+     })
+
+
   });
 
   //inital update
@@ -224,5 +242,48 @@ socket.on("update-type", function(data){
 socket.on("update-name", function(data, inputStr){
 
   addToHTML(data, UPDATE_NAME, inputStr);
+
+});
+
+socket.on("update-wiki", function(htmlString, pageId){
+  if(pageId == -100){
+
+    $(currElement).attr("data-content", htmlString);
+    $(currElement).popover('show');
+    previousElement = currElement;
+    break;
+
+  }
+
+  if(previousElement != null) {
+    $(previousElement).popover("hide");
+  }
+
+ if($(currElement).hasClass("decorateName")) {
+   if(document.getElementsByClassName('popover fade show bs-popover-right').length != 0) {
+
+     var content = htmlString.replace(/<\/?span[^>]*>/g,"");
+     content = content + "..."+ "\n For more information: please visit this website: " + "http://en.wikipedia.org/?curid=" + pageId;
+     $(currElement).attr("data-content", content);
+
+     $(currElement).popover('show');
+
+
+   } else {
+
+     var elems = document.getElementsByClassName('popover fade show bs-popover-right');
+     for(var i = 0; i < elems.length; i++){
+       elems[i].popover('hide');
+     }
+
+     var content = htmlString.replace(/<\/?span[^>]*>/g,"");
+     content = content + "..."+ "\n For more information: please visit this website: " + "<a href='http://en.wikipedia.org/?curid=" + pageId +"'> http://en.wikipedia.org/?curid=" + pageId+"</a>";
+     $(currElement).attr("data-content", content);
+     $(currElement).popover('show');
+
+   }
+
+ }
+ previousElement = currElement;
 
 });
